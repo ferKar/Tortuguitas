@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import TortugasScreenStacks from "./TortugasStacks";
 import AccountScreenStacks from "./AccountStacks";
-import AgregarScreenStacks from "./FavoritesStacks";
+import AgregarScreenStacks from "./AgregarStacks";
 
 const NavigationStacks = createBottomTabNavigator(
   {
