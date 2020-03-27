@@ -14,11 +14,11 @@ function UserGuest(props) {
         resizeMode="contain"
       />
 
-      <Text style={styles.title}>Consulta tu perfil de 5 Tenedores</Text>
+      <Text style={styles.title}>Consulta tu perfil de Tortuguitas</Text>
       <Text style={styles.description}>
-        ¿Como describirías tu mejor restaurante? Busca y visualiza los mejores
-        restaurantes de una forma sencilla, vota vual te ha gustado más y
-        comenta como ha sito tu experiencia.
+        Tortuguitas esta patrocinado por el instituto de Biología, y con esto
+        ayudas a que se localicen y protejan las tortugas de las playas de
+        México.
       </Text>
       <View style={styles.viewBtn}>
         <Button
