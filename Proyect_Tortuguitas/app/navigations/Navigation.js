@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import TortugasScreenStacks from "./TortugasStacks";
 import AccountScreenStacks from "./AccountStacks";
 import AgregarScreenStacks from "./AgregarStacks";
+import NidosStack  from "./NidosStack";
+
 
 const NavigationStacks = createBottomTabNavigator(
   {
@@ -50,11 +52,28 @@ const NavigationStacks = createBottomTabNavigator(
           />
         )
       })
+    },
+    Nidos: {
+      screen: NidosStack,
+      navigationOptions: () => ({
+        tabBarLabel: "Nidos",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon
+            type="material-community"
+            name="egg-easter"
+            size={24}
+            color={tintColor}
+          />
+        )
+      })
     }
+
+
+
   },
   {
-    initialRouteName: "Tortugas",
-    order: ["Tortugas", "AgregarTN", "Account"],
+    initialRouteName: "AgregarTN",
+    order: ["Tortugas", "Nidos", "AgregarTN", "Account"],
     tabBarOptions: {
       inactiveTintColor: "#646464",
       activeTintColor: "#00a680"
