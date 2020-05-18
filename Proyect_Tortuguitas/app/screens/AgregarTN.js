@@ -122,7 +122,7 @@ export default function AgregaTN(props) {
 } 
 
 function AddNidoButton(props) {
-  const { navigation, setIsReloadTortugas } = props;
+  const { navigation } = props;
 
    return (
 
