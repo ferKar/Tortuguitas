@@ -1,112 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Button } from "react-native";
-import ActionButton from "react-native-action-button";
-//import ListRestaurants from "../../components/Restaurants/ListRestaurants";
+import { Icon } from "react-native-elements";
 
-import { firebaseApp } from "../utils/FireBase";
+
 import firebase from "firebase/app";
-//import "firebase/firestore";
-//const db = firebase.firestore(firebaseApp);
 
 export default function AgregaTN(props) {
   const { navigation } = props;
+  const [userLogged, setUserLogged] = useState(false);
+
   const [user, setUser] = useState(null);
- // const [restaurants, setRestaurants] = useState([]);
-  //const [startRestaurants, setStartRestaurants] = useState(null);
- // const [isLoading, setIsLoading] = useState(false);
- // const [totalRestaurants, setTotalRestaurants] = useState(0);
-  const [isReloadTortugas, setIsReloadTortugas] = useState(false);
- // const limitRestaurants = 12; 
+ 
  
 
-   useEffect(() => {
+    useEffect(() => {
     firebase.auth().onAuthStateChanged(userInfo => {
       setUser(userInfo);
     });
   }, []); 
 
-  /* useEffect(() => {
-    db.collection("restaurants")
-      .get()
-      .then(snap => {
-        setTotalRestaurants(snap.size);
-      });
+  firebase.auth().onAuthStateChanged(user => {
+    user ? setUserLogged(true) : setUserLogged(false);
+  });
 
-    (async () => {
-      const resultRestaurants = [];
+  
 
-      const restaurants = db
-        .collection("restaurants")
-        .orderBy("createAt", "desc")
-        .limit(limitRestaurants);
+if (!userLogged) {
+  return (
+    <UserNoLogged
+      navigation={navigation}
+    />
+  );
+} 
 
-      await restaurants.get().then(response => {
-        setStartRestaurants(response.docs[response.docs.length - 1]);
-
-        response.forEach(doc => {
-          let restaurant = doc.data();
-          restaurant.id = doc.id;
-          resultRestaurants.push({ restaurant });
-        });
-        setRestaurants(resultRestaurants);
-      });
-    })();
-    setIsReloadTortugas(false);
-  }, [isReloadTortugas]);
- */
-  /* const handleLoadMore = async () => {
-    const resultRestaurants = [];
-    restaurants.length < totalRestaurants && setIsLoading(true);
-
-    const restaurantsDb = db
-      .collection("restaurants")
-      .orderBy("createAt", "desc")
-      .startAfter(startRestaurants.data().createAt)
-      .limit(limitRestaurants);
-
-    await restaurantsDb.get().then(response => {
-      if (response.docs.length > 0) {
-        setStartRestaurants(response.docs[response.docs.length - 1]);
-      } else {
-        setIsLoading(false);
-      }
-
-      response.forEach(doc => {
-        let restaurant = doc.data();
-        restaurant.id = doc.id;
-        resultRestaurants.push({ restaurant });
-      });
-
-      setRestaurants([...restaurants, ...resultRestaurants]);
-    });
-  };
- */
   return (
     <View style={styles.viewBody}>
       
-      {user &&(
+      {user &&( 
          <View style={styles.contenedorBotones}>
           <View style={styles.botonTortugas}>
             <AddTortugaButton
             navigation={navigation}
-            //setIsReloadTortugas={setIsReloadTortugas}
             />
           </View>
           <View style={styles.botonNido}>
             <AddNidoButton 
             navigation={navigation}
-           // setIsReloadTortugas={setIsReloadTortugas}
              />
           </View>
       </View>
-      )}
+       )} 
      
     </View>
   );
 }
 
  function AddTortugaButton(props) {
-  const { navigation, setIsReloadTortugas } = props;
+  const { navigation } = props;
 
    return (
 
@@ -115,7 +65,6 @@ export default function AgregaTN(props) {
             color= "#00a680"
             onPress={() =>
               navigation.navigate("AddTortuga")
-              //navigation.navigate("AddTortuga", { setIsReloadRestaurants })
             }
           />
        );
@@ -131,11 +80,34 @@ function AddNidoButton(props) {
             color= "#00a680"
             onPress={() =>
               navigation.navigate("AddNido")
-              //navigation.navigate("AddNido", { setIsReloadRestaurants })
             }
           />
        );
 } 
+
+function UserNoLogged(props) {
+  const { navigation } = props;
+
+  return (
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View>
+         <Icon type="material-community" name="alert-outline" size={50} />
+          <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
+             Necesitas estar logeado para ver esta sección.
+          </Text>
+      </View>
+       <View style={styles.viewButton} >
+        <Button
+        buttonStyle={{width:"100%"}}
+
+           title={"Ir al login "}
+          onPress={() => navigation.navigate("Login")}
+          color ="#00a680"
+        />
+      </View>
+    </View>
+  );
+}
 
 
 const styles = StyleSheet.create({
@@ -158,6 +130,15 @@ const styles = StyleSheet.create({
       width: "90%",
       height: 40
      
+  },
+
+  viewButton:{
+    marginTop: 40,
+    marginBottom: 20,
+    marginLeft: 10,
+    marginRight:10,
+    width: "80%",
+    height: 45
   },
 
   botonNido:{

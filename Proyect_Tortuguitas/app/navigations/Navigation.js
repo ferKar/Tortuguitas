@@ -3,6 +3,7 @@ import { Icon } from "react-native-elements";
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
+import TortugasFScreenStack from "./TortugasStacks";
 import TortugasScreenStacks from "./TortugasStacks";
 import AccountScreenStacks from "./AccountStacks";
 import AgregarScreenStacks from "./AgregarStacks";
@@ -11,7 +12,22 @@ import NidosScreenStacks  from "./NidosStack";
 
 const NavigationStacks = createBottomTabNavigator(
   {
-    Tortugas: {
+     TortugaFS: {
+      screen: TortugasFScreenStack,
+      navigationOptions: () => ({
+        tabBarLabel: "Mis tortugas",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon
+            type="material-community"
+            name="turtle"
+            size={24}
+            color={tintColor}
+          />
+        )
+      })
+    }, 
+
+    /* Tortugas: {
       screen: TortugasScreenStacks,
       navigationOptions: () => ({
         tabBarLabel: "Mis tortugas",
@@ -24,7 +40,7 @@ const NavigationStacks = createBottomTabNavigator(
           />
         )
       })
-    },
+    },  */
     AgregarTN: {
       screen: AgregarScreenStacks,
       navigationOptions: () => ({
@@ -56,7 +72,7 @@ const NavigationStacks = createBottomTabNavigator(
     Nidos: {
       screen: NidosScreenStacks,
       navigationOptions: () => ({
-        tabBarLabel: "Nidos",
+        tabBarLabel: "Mis Nidos",
         tabBarIcon: ({ tintColor }) => (
           <Icon
             type="material-community"
@@ -73,7 +89,7 @@ const NavigationStacks = createBottomTabNavigator(
   },
   {
     initialRouteName: "Account",
-    order: ["Tortugas", "Nidos", "AgregarTN", "Account"],
+    order: ["TortugaFS", "Nidos", "AgregarTN", "Account"],
     tabBarOptions: {
       inactiveTintColor: "#646464",
       activeTintColor: "#00a680"

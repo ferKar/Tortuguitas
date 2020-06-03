@@ -16,7 +16,7 @@ function UserGuest(props) {
 
       <Text style={styles.title}>Consulta tu perfil de Tortuguitas</Text>
       <Text style={styles.description}>
-        Tortuguitas esta patrocinado por el instituto de Biología, y con esto
+        Tortuguitas esta patrocinado por el Instituto de Biología, y con esto
         ayudas a que se localicen y protejan las tortugas de las playas de
         México.
       </Text>

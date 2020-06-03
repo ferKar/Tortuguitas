@@ -16,7 +16,7 @@ const db = firebase.firestore(firebaseApp);
 const WidthScreen = Dimensions.get("window").width;
 
 export default function AddNidoForm(props) {
-  const { toastRef, setIsLoading, navigation, /* setIsReloadRestaurants */ } = props;
+  const { toastRef, setIsLoading, navigation,  /* setIsReloadRestaurants  */ } = props;
   const [imagesSelected, setImagesSelected] = useState([]);
   const [nidoName, setNidoName] = useState("");
   const [nidoAddress, setNidoAddress] = useState("");
@@ -276,7 +276,7 @@ function FormAdd(props) {
         onChange={e => setNidoAddress(e.nativeEvent.text)} 
       /> 
       <Input
-        placeholder="Descripcion del Nido"
+        placeholder="Descripción del Nido"
         multiline={true}
         
         inputContainerStyle={styles.textArea}
@@ -327,7 +327,7 @@ function Map(props) {
 
       if (statusPermissions !== "granted") {
         toastRef.current.show(
-          "Tienes que aceptar los permisos de localizacion para añadir una Nido.",
+          "Tienes que aceptar los permisos de localización para añadir una Nido.",
           3000
         );
       } else {
@@ -344,7 +344,7 @@ function Map(props) {
  
    const confirmLocation = () => {
     setLocationNido(location);
-    toastRef.current.show("Localizacion guardada correctamente");
+    toastRef.current.show("Localización guardada correctamente");
     setIsVisibleMap(false);
   }; 
 
@@ -369,7 +369,7 @@ function Map(props) {
         )}
         <View style={styles.viewMapBtn}>
           <Button
-            title="Guardar Ubicacion"
+            title="Guardar Ubicación"
             onPress={confirmLocation}
             containerStyle={styles.viewMapBtnContainerSave}
             buttonStyle={styles.viewMapBtnSave}

@@ -5,7 +5,7 @@ import { validateEmail } from "../../utils/Validation";
 import { withNavigation } from "react-navigation";
 import * as firebase from "firebase";
 import Loading from "../Loading";
-
+ 
 function LoginForm(props) {
   const { toastRef, navigation } = props;
   const [hidePassword, setHidePassword] = useState(true);

@@ -6,9 +6,11 @@ import AddTortugaForm from "../../components/Tortugas/AddTortugasForm";
 
 export default function AddTortuga(props) {
   const { navigation } = props;
-  //const { setIsReloadRestaurants } = navigation.state.params;
+ // const { setIsReloadTortugas } = navigation.state.params;
   const toastRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
+
+
 
   return (
     <View>
@@ -21,7 +23,7 @@ export default function AddTortuga(props) {
          toastRef={toastRef}
          setIsLoading={setIsLoading}
          navigation={navigation}
-       // setIsReloadRestaurants={setIsReloadRestaurants}
+         //setIsReloadTortugas={setIsReloadTortugas}
       
         />
 

@@ -16,7 +16,7 @@ const db = firebase.firestore(firebaseApp);
 const WidthScreen = Dimensions.get("window").width;
 
 export default function AddTortugasForm(props) {
-  const { toastRef, setIsLoading, navigation, /* setIsReloadRestaurants */ } = props;
+  const { toastRef, setIsLoading, navigation, /* setIsReloadTortugas */ } = props;
   const [imagesSelected, setImagesSelected] = useState([]);
   const [tortugaName, setTortugaName] = useState("");
   const [tortugaAddress, setTortugaAddress] = useState("");
@@ -27,7 +27,7 @@ export default function AddTortugasForm(props) {
   const [isVisibleMap, setIsVisibleMap] = useState(false);
   const [locationTortuga, setLocationTortuga] = useState(null);
  
-
+  
 
 
    const AddTortuga = () => {
@@ -59,8 +59,8 @@ export default function AddTortugasForm(props) {
           .then(() => {
             
             setIsLoading(false);
-            //setIsReloadRestaurants(true);
-            navigation.navigate("Tortugas");
+            //setIsReloadTortugas(true);
+            navigation.navigate("TortugaFS");
            
           })
           .catch(error => {
@@ -73,6 +73,8 @@ export default function AddTortugasForm(props) {
       }); 
         
     } 
+
+
   }; 
 
    const uploadImagesStorage = async imageArray => {
@@ -115,6 +117,7 @@ export default function AddTortugasForm(props) {
         title="Añadir Tortuga"
         onPress={AddTortuga}
         buttonStyle={styles.btnAddTortuga}
+       // setIsReloadTortugas={{setIsReloadTortugas}}
       />
 
       <Map
@@ -280,7 +283,7 @@ function FormAdd(props) {
         onChange={e => setTortugaAddress(e.nativeEvent.text)} 
       /> 
       <Input
-        placeholder="Descripcion del Tortuga"
+        placeholder="Descripción del Tortuga"
         multiline={true}
         
         inputContainerStyle={styles.textArea}
@@ -303,7 +306,8 @@ function PickerGenero(props){
         style={{ height: 50, width: "100%" }}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue) & setTortugaGenero(itemValue)}
       >
-        <Picker.Item label="Genero" value="" />
+        <Picker.Item label="Género" value="" />
+        <Picker.Item label="Desconocido" value="Desconocido" />
         <Picker.Item label="Hembra" value="Hembra" />
         <Picker.Item label="Macho" value ="Macho" />
       </Picker>
@@ -350,7 +354,7 @@ function Map(props) {
 
       if (statusPermissions !== "granted") {
         toastRef.current.show(
-          "Tienes que aceptar los permisos de localizacion para añadir una Tortuga.",
+          "Tienes que aceptar los permisos de localización para añadir una Tortuga.",
           3000
         );
       } else {
@@ -367,7 +371,7 @@ function Map(props) {
  
    const confirmLocation = () => {
     setLocationTortuga(location);
-    toastRef.current.show("Localizacion guardada correctamente");
+    toastRef.current.show("Localización guardada correctamente");
     setIsVisibleMap(false);
   }; 
 
@@ -392,7 +396,7 @@ function Map(props) {
         )}
         <View style={styles.viewMapBtn}>
           <Button
-            title="Guardar Ubicacion"
+            title="Guardar Ubicación"
             onPress={confirmLocation}
             containerStyle={styles.viewMapBtnContainerSave}
             buttonStyle={styles.viewMapBtnSave}

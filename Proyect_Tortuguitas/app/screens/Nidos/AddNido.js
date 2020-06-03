@@ -6,7 +6,7 @@ import AddNidosForm from "../../components/Nido/AddNidosForm";
 
 export default function AddNido(props) {
   const { navigation } = props;
-  //const { setIsReloadRestaurants } = navigation.state.params;
+  //const {  } = navigation.state.params;
   const toastRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 

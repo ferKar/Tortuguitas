@@ -18,136 +18,135 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 const db = firebase.firestore(firebaseApp);
 
-export default function Nidos(props) {
+export default function TortugaF(props) {
   const { navigation } = props;
-  const [nidos, setNidos] = useState([]);
-  const [reloadNidos, setReloadNidos] = useState(false);
+  const [tortugas, setTortugas] = useState([]);
+  const [reloadTortugas, setReloadTortugas] = useState(false);
   const [isVisibleLoding, setIsVisibleLoading] = useState(false);
   const [userLogged, setUserLogged] = useState(false);
   const toastRef = useRef();
-  console.log("Nidos "+ props.nido);
+
+
 
   firebase.auth().onAuthStateChanged(user => {
     user ? setUserLogged(true) : setUserLogged(false);
   });
 
-
-
   useEffect(() => {
     if (userLogged) {
-    const idUser = firebase.auth().currentUser.uid;
-
-      db.collection("nidos")
-        .where("usuario", "==", idUser )
+      const idUser = firebase.auth().currentUser.uid;
+      db.collection("tortugas")
+        .where("Usuario", "==", idUser)
         .get()
         .then(response => {
-          const idNidosArray = [];
-          response.forEach(doc => {   
-          idNidosArray.push(doc.id);
+          const idTortugasArray = [];          
+          response.forEach(doc => {
+            idTortugasArray.push(doc.id);
           });
-
-          getDataNidos(idNidosArray).then(response => {
-            const nidos = [];
+          
+           getDatatortugas(idTortugasArray).then(response => {
+            const tortugasArray = [];
             response.forEach(doc => {
-              let nido = doc.data();
-              nido.id = doc.id;
-              nidos.push(nido); 
+              const tortuga = doc.data();
+              tortuga.id = doc.id;
+              tortugasArray.push(tortuga); 
             });
-            setNidos(nidos);
-          });
+            setTortugas(tortugasArray);
+          }); 
         });
     }
-    setReloadNidos(false);
-  }, [reloadNidos,userLogged]);
+    setReloadTortugas(false);
+  }, [reloadTortugas,userLogged]);
 
+  const getDatatortugas = idTortugasArray => {
 
-  const getDataNidos = idNidosArray => {
-    const arrayNidos = [];
-    idNidosArray.forEach(idNido => {
+    const arrayTortugas = [];
+    idTortugasArray.forEach(idTortuga => {
       const result = db
-        .collection("nidos")
-        .doc(idNido)
+        .collection("tortugas")
+        .doc(idTortuga)
         .get();
-      arrayNidos.push(result);
-     
+      arrayTortugas.push(result);
     });
-    return Promise.all(arrayNidos);
+    return Promise.all(arrayTortugas);
   };
- 
-     if (!userLogged) {
+
+   if (!userLogged) {
     return (
       <UserNoLogged
-        setReloadNidos={setReloadNidos}
+        setReloadTortugas={setReloadTortugas}
         navigation={navigation}
       />
     );
   } 
 
-  if(!nidos){
-    return <Loading isVisible = {true} text="Cargando Nidos" />
+  if(!tortugas){
+    return <Loading isVisible = {true} text="Cargando Tortugas" />
   }
-  
-  if (nidos.length === 0) {
-    return <NotFoundNidos setReloadNidos={setReloadNidos} />;
+
+ 
+  if (tortugas.length === 0) {
+    return <NotFoundtortugas setReloadTortugas={setReloadTortugas} />;
   } 
-  
+
   return (
     <View style={styles.viewBody}>
-      <NavigationEvents onWillFocus={() => setReloadNidos(true)} />
-      {nidos ? (
-        <FlatList
-          data={nidos}
-          renderItem={nido => (
-            <Nido
-              nido={nido}
+     
+      <NavigationEvents onWillFocus={() => setReloadTortugas(true)} />
+      {tortugas ? (
+         <FlatList
+          data={tortugas}
+          renderItem={tortuga => (
+            <Tortuga
+              tortuga={tortuga}
               navigation={navigation}
               setIsVisibleLoading={setIsVisibleLoading}
-              setReloadNidos={setReloadNidos}
+              setReloadTortugas={setReloadTortugas}
               toastRef={toastRef}
-            /> 
+            />
           )}
           keyExtractor={(item, index) => index.toString()}
         />
-      ) : (
-        <View style={styles.loaderNidos}>
+       ) : (
+        <View style={styles.loaderTortugas}>
           <ActivityIndicator size="large" />
-          <Text>Cargando nidos</Text>
+          <Text>Cargando tortugas</Text>
         </View>
       )}
       <Toast ref={toastRef} position="center" opacity={1} />
-      <Loading text="Eliminando Nido" isVisible={isVisibleLoding} />
+      <Loading text="Eliminando tortuga" isVisible={isVisibleLoding} />
+    
+    
     </View>
   );
 }
 
-function Nido(props) {
-
-  
+function Tortuga(props) {
   const {
-    nido,
+    tortuga,
     navigation,
     setIsVisibleLoading,
-    setReloadNidos,
+    setReloadTortugas,
     toastRef
   } = props;
-  const {id, nombre, images } = nido.item;
-  const [imageNido, setImageNido] = useState(null);
+  const { id, nombre, images } = tortuga.item;
+  const [imageTortuga, setImageTortuga] = useState(null);
 
    useEffect(() => {
     const image = images[0];
     firebase
       .storage()
-      .ref(`nidos/${image}`)
+      .ref(`tortugas/${image}`)
       .getDownloadURL()
       .then(response => {
-        setImageNido(response);
+        setImageTortuga(response);
       });
-  },[]); //[imageNido]);//puse imagen nidos
- 
-  const confirmRemoveNido = () => {
+  }, []);
+
+  const confirmRemoveTortuga = () => {
     Alert.alert(
-      "Eliminar Nido de la lista",
-      "¿Estas seguro de que quieres eliminar el Nido de tu lista ?",
+      "Eliminar tortuga ",
+      "¿Estas seguro de que quieres eliminar el tortuga de tu lista?",
       [
         {
           text: "Cancel",
@@ -155,80 +154,84 @@ function Nido(props) {
         },
         {
           text: "Eliminar",
-          onPress: removeNido
+          onPress: removeTortuga
         }
       ],
       { cancelable: false }
     );
-  }; 
+  };
 
-   const removeNido = () => {
+  const removeTortuga = () => {
     setIsVisibleLoading(true);
-    db.collection("nidos")
-    .doc(nido.item.id)
+    db.collection("tortugas")
+    .doc(id)
     .delete()
     .then(() => {
       setIsVisibleLoading(false);
-      setReloadNidos(true);
-      toastRef.current.show("Nido  eliminado correctamente");
+      setReloadTortugas(true);
+      toastRef.current.show("Tortuga eliminada correctamente");
     })
     .catch(() => {
       setIsVisibleLoading(false);
-      toastRef.current.show("Error al eliminar el Nido");
-    });
-  }; 
+      toastRef.current.show("Error al eliminar la Tortuga");
+    }); 
+}; 
+
+
 
   return (
-    <View style={styles.nido}>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("Nido",{ nido: nido.item.id })
-        }
-      >
+    <View style={styles.tortuga}>
+        <TouchableOpacity
+         onPress={() =>
+          navigation.navigate("Tortuga", { tortuga: tortuga.item.id })
+        } 
+      > 
         <Image
           resizeMode="cover"
-          source={{uri: imageNido}} 
-          
+          source={{ uri: imageTortuga }}
           style={styles.image}
           PlaceholderContent={<ActivityIndicator color="#fff" />}
         />
-      </TouchableOpacity>
-      <View style={styles.info}>
-        <Text style={styles.nombre}>{nombre}</Text>
+       </TouchableOpacity> 
+       <View style={styles.info}>
+        <Text style={styles.name}>{nombre}</Text>
         <Icon
           type="material-community"
           name="minus-circle-outline"
           color="#00a680"
           containerStyle={styles.favorite}
-           onPress={confirmRemoveNido} 
+          onPress={confirmRemoveTortuga}
           size={40}
           underlayColor="transparent"
         />
-      </View>
+      </View>  
+
     </View>
   );
 }
 
- function NotFoundNidos(props) {
-  const { setReloadNidos } = props;
+function NotFoundtortugas(props) {
+  const { setReloadTortugas } = props;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <NavigationEvents onWillFocus={() => setReloadNidos(true)} />
+      <NavigationEvents onWillFocus={() => setReloadTortugas(true)} />
       <Icon type="material-community" name="alert-outline" size={50} />
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-        No tienes nidos en tu lista
+        No tienes tortugas en tu lista
       </Text>
     </View>
   );
 } 
 
+
+
  function UserNoLogged(props) {
-  const { setReloadNidos, navigation } = props;
+  const { setReloadTortugas, navigation } = props;
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <NavigationEvents onWillFocus={() => setReloadNidos(true)} />
+      <NavigationEvents onWillFocus={() => setReloadTortugas(true)} />
       <Icon type="material-community" name="alert-outline" size={50} />
       <Text style={{ fontSize: 20, fontWeight: "bold", textAlign: "center" }}>
         Necesitas estar logeado para ver esta sección.
@@ -241,18 +244,18 @@ function Nido(props) {
       />
     </View>
   );
-}
+} 
 
 const styles = StyleSheet.create({
   viewBody: {
     flex: 1,
     backgroundColor: "#f2f2f2"
   },
-  loaderNidos: {
+  loaderTortugas: {
     marginTop: 10,
     marginBottom: 10
   },
-  nido: {
+  tortuga: {
     margin: 10
   },
   image: {
@@ -271,7 +274,7 @@ const styles = StyleSheet.create({
     marginTop: -30,
     backgroundColor: "#fff"
   },
-  nombre: {
+  name: {
     fontWeight: "bold",
     fontSize: 20
   },
