@@ -6,6 +6,14 @@ import Carousel from "../../components/Carousel";
 import Map from "../../components/Map";
 import Toast from "react-native-easy-toast";
 
+//importaciones para editar
+import Modal from "../../components/Modal";
+import CambioTamaño from "../../components/Nido/CambioTamaño";
+import CambioTipo from "../../components/Nido/CambioTipo";
+import CambioDireccion from "../../components/Nido/CambioDireccion";
+
+//acabnlas importacionces
+
 import { firebaseApp } from "../../utils/FireBase";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -17,11 +25,14 @@ const screenWidth = Dimensions.get("window").width;
 export default function Nido(props) {
   const { navigation } = props;
   const { nido } = navigation.state.params;
-
   const [nidos, setNidos] = useState (null);
-
   const [imagesNido, setImagesNido] = useState([]);
   const toastRef = useRef();
+
+ //
+ const [reloadData, setReloadData] = useState(false);
+ //
+
 
 
 useEffect(() => {
@@ -58,7 +69,8 @@ if(nidos) {
           setNidos(datos);
 
         });
-  }, []);
+  }, [reloadData]);
+
  
 
   if(!nidos) return <Loading  isVisible={true} text="Cargando Nido..." />;
@@ -81,6 +93,7 @@ if(nidos) {
 
        <NidoInfo
        nidos={nidos}
+       setReloadData={setReloadData}
         localización={nido.localización}
         nombre={nido.nombre}
         direccion={nido.direccion}
@@ -108,8 +121,15 @@ function TitleNido(props) {
 }
 
 function NidoInfo(props) {
- const {nombre, tamaño, tipo, direccion, fecha,localización } = props.nidos; 
+ const {id,nombre, tamaño, tipo, direccion, localización } = props.nidos; 
  const nfecha = props.nidos.fecha.toDate().toDateString();
+
+ //Prueba paa editar la tortugas estasdos
+const {setReloadData, toastRef} = props;
+const [isVisibleModal, setIsVisibleModal] = useState(false);
+const [renderComponent, setRenderComponent] = useState(null);
+//const toastRef = useRef();
+  //Acaban estados para editar componentes
  
  const listInfo = [
     
@@ -117,18 +137,24 @@ function NidoInfo(props) {
       text: tamaño,
       iconName: "arrow-split-vertical",
       iconType: "material-community",
+      iconRightName: "pencil-outline",
+      onPress: () => selectedComponent("tamaño"),
       action: null
     }, 
      {
       text: tipo,
-      iconName: (tipo === "Marina") ? "waves" :"image-filter-hdr",
+      iconName: tipo === "Marina" ? "waves" :"image-filter-hdr",
       iconType: "material-community",
+      iconRightName: "pencil-outline",
+      onPress: () => selectedComponent("tipo"),
       action: null
     },
     {
      text: direccion,
         iconName: "map-marker",
         iconType: "material-community",
+        iconRightName: "pencil-outline",
+        onPress: () => selectedComponent("dirección"),
         action: null
       },
 
@@ -136,9 +162,66 @@ function NidoInfo(props) {
           text: nfecha,
           iconName:"calendar-range",
           iconType: "material-community",
+          iconRightName: "pencil-off",
           action: null
       }  
   ];
+
+
+  //Prueba de renderizar componente para editas
+
+const selectedComponent = key => {
+  switch (key) {    
+     case "tamaño":
+         setRenderComponent(
+         <CambioTamaño
+          tamaño={tamaño}
+          id={id}
+          setReloadData={setReloadData}
+          setIsVisibleModal={setIsVisibleModal}
+          toastRef={toastRef} 
+         />
+         );
+      
+      setIsVisibleModal(true); 
+      break;
+    case "tipo":
+       setRenderComponent(
+              <CambioTipo
+                  tipo={tipo}
+                  id={id}
+                  setReloadData={setReloadData}
+                  setIsVisibleModal={setIsVisibleModal}
+                  toastRef={toastRef} 
+              />
+          );
+      setIsVisibleModal(true); 
+     
+      break;
+
+      case "dirección":
+          setRenderComponent(
+              <CambioDireccion
+              direccion={direccion}
+              id={id}
+              setReloadData={setReloadData}
+              setIsVisibleModal={setIsVisibleModal}
+              toastRef={toastRef} 
+              />
+          );
+          setIsVisibleModal(true);  
+     
+      break;
+
+    default:
+    break;
+  }
+};
+
+
+//Acaba el codigo prueba
+
+
  
   return (
     <View style={styles.viewNidoInfo}>
@@ -157,12 +240,25 @@ function NidoInfo(props) {
             type: item.iconType,
             color: "#00a680"
           }}
+          rightIcon={{
+            name: item.iconRightName,
+            type: item.iconType,
+            color: "#ccc"
+        }} 
+        onPress={item.onPress}
           containerStyle={styles.containerListItem}
         />
       ))}
 
        <Map localización={localización} nombre={nombre} height={100} /> 
-      
+        {/* //Es para editar las tortuga */}
+       {renderComponent &&(
+       <Modal isVisible={isVisibleModal} setIsVisible={setIsVisibleModal}>
+          {renderComponent}
+       </Modal>
+       )}
+     {/*   // aqui acaba */}
+
     </View>
   );
 }

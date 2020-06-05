@@ -25,7 +25,6 @@ export default function Nidos(props) {
   const [isVisibleLoding, setIsVisibleLoading] = useState(false);
   const [userLogged, setUserLogged] = useState(false);
   const toastRef = useRef();
-  console.log("Nidos "+ props.nido);
 
   firebase.auth().onAuthStateChanged(user => {
     user ? setUserLogged(true) : setUserLogged(false);
