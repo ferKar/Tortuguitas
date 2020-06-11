@@ -5,20 +5,20 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { Image } from "react-native-elements";
 import * as firebase from "firebase";
 
 export default function ListTortugas(props) {
-  const { tortugas, isLoading, handleLoadMore, navigation} = props;
+  const { tortugas, isLoading, handleLoadMore, navigation } = props;
 
   return (
     <View>
       {tortugas ? (
         <FlatList
           data={tortugas}
-          renderItem={tortuga => (
+          renderItem={(tortuga) => (
             <Tortuga tortuga={tortuga} navigation={navigation} />
           )}
           keyExtractor={(item, index) => index.toString()}
@@ -29,7 +29,7 @@ export default function ListTortugas(props) {
       ) : (
         <View style={styles.loadertortugas}>
           <ActivityIndicator size="large" />
-          <Text>Cargando Tortugaes</Text>
+          <Text>Cargando Tortugas</Text>
         </View>
       )}
     </View>
@@ -47,7 +47,7 @@ function Tortuga(props) {
       .storage()
       .ref(`tortugas/${image}`)
       .getDownloadURL()
-      .then(result => {
+      .then((result) => {
         setImageTortuga(result);
       });
   });
@@ -56,8 +56,7 @@ function Tortuga(props) {
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("Tortuga", {
-          
-          tortuga: tortuga.item.tortuga
+          tortuga: tortuga.item.tortuga,
         })
       }
     >
@@ -103,38 +102,38 @@ function FooterList(props) {
 const styles = StyleSheet.create({
   loadingtortugas: {
     marginTop: 20,
-    alignItems: "center"
+    alignItems: "center",
   },
   viewTortuga: {
     flexDirection: "row",
-    margin: 10
+    margin: 10,
   },
   viewTortugaImage: {
-    marginRight: 15
+    marginRight: 15,
   },
   imageTortuga: {
     width: 80,
-    height: 80
+    height: 80,
   },
   TortugaName: {
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   TortugaAddress: {
     paddingTop: 2,
-    color: "grey"
+    color: "grey",
   },
   TortugaDescription: {
     paddingTop: 2,
     color: "grey",
-    width: 300
+    width: 300,
   },
   loadertortugas: {
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
   },
   notFoundRestuants: {
     marginTop: 10,
     marginBottom: 20,
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });

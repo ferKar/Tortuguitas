@@ -7,12 +7,12 @@ import TortugasFScreenStack from "./TortugasStacks";
 import TortugasScreenStacks from "./TortugasStacks";
 import AccountScreenStacks from "./AccountStacks";
 import AgregarScreenStacks from "./AgregarStacks";
-import NidosScreenStacks  from "./NidosStack";
-
+import NidosScreenStacks from "./NidosStack";
+import MapaScreenStacks from "./MapStack";
 
 const NavigationStacks = createBottomTabNavigator(
   {
-     TortugaFS: {
+    TortugaFS: {
       screen: TortugasFScreenStack,
       navigationOptions: () => ({
         tabBarLabel: "Mis tortugas",
@@ -23,9 +23,9 @@ const NavigationStacks = createBottomTabNavigator(
             size={24}
             color={tintColor}
           />
-        )
-      })
-    }, 
+        ),
+      }),
+    },
 
     /* Tortugas: {
       screen: TortugasScreenStacks,
@@ -52,8 +52,8 @@ const NavigationStacks = createBottomTabNavigator(
             size={24}
             color={tintColor}
           />
-        )
-      })
+        ),
+      }),
     },
     Account: {
       screen: AccountScreenStacks,
@@ -66,8 +66,8 @@ const NavigationStacks = createBottomTabNavigator(
             size={24}
             color={tintColor}
           />
-        )
-      })
+        ),
+      }),
     },
     Nidos: {
       screen: NidosScreenStacks,
@@ -80,20 +80,31 @@ const NavigationStacks = createBottomTabNavigator(
             size={24}
             color={tintColor}
           />
-        )
-      })
-    }
-
-
-
+        ),
+      }),
+    },
+    Mapa: {
+      screen: MapaScreenStacks,
+      navigationOptions: () => ({
+        tabBarLabel: "Mapa",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon
+            type="material-community"
+            name="map-outline"
+            size={24}
+            color={tintColor}
+          />
+        ),
+      }),
+    },
   },
   {
     initialRouteName: "Account",
-    order: ["TortugaFS", "Nidos", "AgregarTN", "Account"],
+    order: ["Mapa", "TortugaFS", "Nidos", "AgregarTN", "Account"],
     tabBarOptions: {
       inactiveTintColor: "#646464",
-      activeTintColor: "#00a680"
-    }
+      activeTintColor: "#00a680",
+    },
   }
 );
 
