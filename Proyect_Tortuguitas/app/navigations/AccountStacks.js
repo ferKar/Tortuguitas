@@ -6,7 +6,7 @@ import RegisterScreen from "../screens/Account/Register";
 const AccountScreenStacks = createStackNavigator({
   MyAccount: {
     screen: MyAccountScreen,
-    navigationOptions: () => ({
+    tions: () => ({
       title: "Mi cuenta"
     })
   },

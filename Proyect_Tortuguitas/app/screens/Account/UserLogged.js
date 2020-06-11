@@ -13,7 +13,7 @@ export default function UserLogged() {
   const [isLoading, setIsLoading] = useState(false);
   const [textLoading, setTextLoading] = useState("");
   const toastRef = useRef();
-
+ 
   useEffect(() => {
     (async () => {
       const user = await firebase.auth().currentUser;

@@ -13,7 +13,7 @@ export default function InfoUser(props) {
     setIsLoading,
     setTextLoading
   } = props;
-
+   
   const changeAvatar = async () => {
     const resultPermision = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     const resultPermisionCamera = resultPermision.permissions.cameraRoll.status;
