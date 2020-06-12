@@ -10,16 +10,16 @@ import {
 import { Image } from "react-native-elements";
 import * as firebase from "firebase";
 
-export default function ListTortugas(props) {
-  const { tortugas, isLoading, handleLoadMore, navigation} = props;
+export default function ListNidos(props) {
+  const { nidos, isLoading, handleLoadMore, navigation} = props;
 
   return (
     <View>
-      {tortugas ? (
+      {nidos ? (
         <FlatList
-          data={tortugas}
-          renderItem={tortuga => (
-            <Tortuga tortuga={tortuga} navigation={navigation} />
+          data={nidos}
+          renderItem={nido => (
+            <Nido nido={nido} navigation={navigation} />
           )}
           keyExtractor={(item, index) => index.toString()}
           onEndReached={handleLoadMore}
@@ -27,54 +27,60 @@ export default function ListTortugas(props) {
           ListFooterComponent={<FooterList isLoading={isLoading} />}
         />
       ) : (
-        <View style={styles.loaderTortugas}>
+        <View style={styles.loadernidos}>
           <ActivityIndicator size="large" />
-          <Text>Cargando Tortugas</Text>
+          <Text>Cargando nidos</Text>
         </View>
       )}
     </View>
   );
 }
 
-function Tortuga(props) {
-  const { tortuga, navigation } = props;
-  const { nombre, dirección, descripción, images } = tortuga.item.tortuga;
-  const [imageTortuga, setImageTortuga] = useState(null);
+function Nido(props) {
+  const { nido, navigation } = props;
+  const { nombre, direccion, descripcion, images } = nido.item.nido;
+  const [imageNido, setImageNido] = useState(null);
+ 
+
+  console.log("buscamos el id ");
+  console.log(nido.item.nido.id);
+
 
   useEffect(() => {
     const image = images[0];
     firebase
       .storage()
-      .ref(`tortugas/${image}`)
+      .ref(`nidos/${image}`)
       .getDownloadURL()
       .then(result => {
-        setImageTortuga(result);
+        setImageNido(result);
       });
   });
 
   return (
+
+    
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate("Tortuga", {
-          
-          tortuga: tortuga.item.tortuga.id
-        })
+        navigation.navigate("Nido", {  nido: nido.item.nido.id
+        } )
+        
       }
     >
-      <View style={styles.viewTortuga}>
-        <View style={styles.viewTortugaImage}>
+      <View style={styles.viewNido}>
+        <View style={styles.viewNidoImage}>
           <Image
             resizeMode="cover"
-            source={{ uri: imageTortuga }}
-            style={styles.imageTortuga}
+            source={{ uri: imageNido }}
+            style={styles.imageNido}
             PlaceholderContent={<ActivityIndicator color="fff" />}
           />
         </View>
         <View>
-          <Text style={styles.TortugaName}>{nombre}</Text>
-          <Text style={styles.TortugaAddress}>{dirección}</Text>
-          <Text style={styles.TortugaDescription}>
-            {descripción.substr(0, 60)}...
+          <Text style={styles.nidoName}>{nombre}</Text>
+          <Text style={styles.nidoAddress}>{direccion}</Text>
+          <Text style={styles.nidoDescription}>
+            {descripcion.substr(0, 60)}...
           </Text>
         </View>
       </View>
@@ -87,48 +93,48 @@ function FooterList(props) {
 
   if (isLoading) {
     return (
-      <View style={styles.loadingtortugas}>
+      <View style={styles.loadingnidos}>
         <ActivityIndicator size="large" />
       </View>
     );
   } else {
     return (
       <View style={styles.notFoundRestuants}>
-        <Text>No quedan Tortugas por cargar</Text>
+        <Text>No quedan nidos por cargar</Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  loadingtortugas: {
+  loadingnidos: {
     marginTop: 20,
     alignItems: "center"
   },
-  viewTortuga: {
+  viewNido: {
     flexDirection: "row",
     margin: 10
   },
-  viewTortugaImage: {
+  viewNidoImage: {
     marginRight: 15
   },
-  imageTortuga: {
+  imageNido: {
     width: 80,
     height: 80
   },
-  TortugaName: {
+  nidoName: {
     fontWeight: "bold"
   },
-  TortugaAddress: {
+  nidoAddress: {
     paddingTop: 2,
     color: "grey"
   },
-  TortugaDescription: {
+  nidoDescription: {
     paddingTop: 2,
     color: "grey",
     width: 300
   },
-  loaderTortugas: {
+  loadernidos: {
     marginTop: 10,
     marginBottom: 10
   },

@@ -19,19 +19,21 @@ const [login, setLogin] = useState(null);
 const [loginAdmin, setLoginAdmin] = useState(" ");
 
 
-useEffect(() => {
-  firebase.auth().onAuthStateChanged(user => {
-   if(!user){
-     setLogin(false);
-   }else{
+//console.log("es user APP ");
+
+
+
+
+ firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
     setLoginAdmin(user.uid);
     setLogin(true);
-    console.log("es use 2   "+user.uid)
     
-   }
-   //hasta aqui  
-  });
-}, []);
+  } else {
+    setLogin(false);  
+  }
+}); 
+
 //Solo tenia  regresaba esto  return <Navigation />;
 
 if(login && loginAdmin === "WQwxAPFnmFZezGVz6YsPaihCTRH3"){
