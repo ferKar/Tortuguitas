@@ -1,98 +1,98 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Platform } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { Marker } from "react-native-maps";
 import MapView, { Heatmap, PROVIDER_GOOGLE } from "react-native-maps";
 
-export default class MapC extends Component {
-  static navigationOptions = {
-    title: "New York",
-  };
+import { firebaseApp } from "../utils/FireBase";
+import firebase from "firebase/app";
+import "firebase/firestore";
+const db = firebase.firestore(firebaseApp);
 
-  state = {
-    initialPosition: {
-      latitude: 40.7143,
-      longitude: -74.0042,
-      latitudeDelta: 0.09,
-      longitudeDelta: 0.035,
-    },
-  };
+const initialRegion = {
+  latitude: 20.618065,
+  longitude: -105.177453,
+  latitudeDelta: 0.25,
+  longitudeDelta: 0.15,
+};
+function removeEmptyObjects(obj) {
+  return Object.keys(obj).forEach((key) =>
+    obj[key] === undefined ? delete obj[key] : {}
+  );
+}
 
-  points = [
-    { latitude: 40.7828, longitude: -74.0065, weight: 1 },
-    { latitude: 41.7121, longitude: -74.0042, weight: 1 },
-    { latitude: 40.7102, longitude: -75.006, weight: 1 },
-    { latitude: 40.7123, longitude: -74.0052, weight: 1 },
-    { latitude: 40.7032, longitude: -74.0042, weight: 1 },
-    { latitude: 40.7198, longitude: -74.0024, weight: 1 },
-    { latitude: 41.7223, longitude: -74.0053, weight: 1 },
-    { latitude: 40.7181, longitude: -74.0042, weight: 1 },
-    { latitude: 40.7124, longitude: -74.0023, weight: 1 },
-    { latitude: 40.7648, longitude: -74.0012, weight: 1 },
-    { latitude: 41.7128, longitude: -74.0027, weight: 1 },
-    { latitude: 40.7223, longitude: -74.0153, weight: 1 },
-    { latitude: 40.7193, longitude: -74.0052, weight: 1 },
-    { latitude: 40.7241, longitude: -75.0013, weight: 1 },
-    { latitude: 41.7518, longitude: -74.0085, weight: 1 },
-    { latitude: 40.7599, longitude: -74.0093, weight: 1 },
-    { latitude: 41.7523, longitude: -74.0021, weight: 1 },
-    { latitude: 40.7342, longitude: -74.0152, weight: 1 },
-    { latitude: 40.7484, longitude: -75.0042, weight: 1 },
-    { latitude: 40.7929, longitude: -75.0023, weight: 1 },
-    { latitude: 40.7292, longitude: -74.0013, weight: 1 },
-    { latitude: 40.794, longitude: -74.0048, weight: 1 },
-    { latitude: 40.7874, longitude: -74.0052, weight: 1 },
-    { latitude: 40.7824, longitude: -74.0024, weight: 1 },
-    { latitude: 40.7232, longitude: -74.0094, weight: 1 },
-    { latitude: 41.7342, longitude: -74.0152, weight: 1 },
-    { latitude: 41.7484, longitude: -74.0012, weight: 1 },
-    { latitude: 41.7929, longitude: -74.0073, weight: 1 },
-    { latitude: 41.7292, longitude: -74.0013, weight: 1 },
-    { latitude: 41.794, longitude: -74.0058, weight: 1 },
-    { latitude: 41.7874, longitude: -74.0352, weight: 1 },
-    { latitude: 41.7824, longitude: -74.0024, weight: 1 },
-    { latitude: 41.7232, longitude: -74.0094, weight: 1 },
-    { latitude: 41.0342, longitude: -75.0152, weight: 1 },
-    { latitude: 41.0484, longitude: -75.0012, weight: 1 },
-    { latitude: 41.0929, longitude: -75.0073, weight: 1 },
-    { latitude: 41.0292, longitude: -74.0013, weight: 1 },
-    { latitude: 41.094, longitude: -74.0068, weight: 1 },
-    { latitude: 41.0874, longitude: -74.0052, weight: 1 },
-    { latitude: 41.0824, longitude: -74.0024, weight: 1 },
-    { latitude: 41.0232, longitude: -74.0014, weight: 1 },
-  ];
+function renderRandomMarkers(n) {
+  const { latitude, longitude, latitudeDelta, longitudeDelta } = initialRegion;
+  return new Array(n).fill().map((x, i) => (
+    <Marker
+      key={i}
+      coordinate={{
+        latitude: latitude + (Math.random() - 0.5) * latitudeDelta,
+        longitude: longitude + (Math.random() - 0.5) * longitudeDelta,
+      }}
+    />
+  ));
+}
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          ref={(map) => (this._map = map)}
-          style={styles.map}
-          initialRegion={this.state.initialPosition}
-        >
-          <Heatmap
-            points={this.points}
-            radius={40}
-            opacity={1}
-            gradient={{
-              colors: ["black", "purple", "red", "orange", "white"],
-              startPoints:
-                Platform.OS === "ios"
-                  ? [0.01, 0.04, 0.1, 0.45, 0.5]
-                  : [0.1, 0.25, 0.5, 0.75, 1],
-              colorMapSize: 2000,
-            }}
-          ></Heatmap>
-        </MapView>
-      </View>
-    );
-  }
+export default function MapaCS() {
+  const [totalTortugas, setTotalTortugas] = useState(0);
+
+  const [tortugas, setTortugas] = useState([]);
+  const [coordenas, setCoordenas] = useState([]);
+
+  console.log("Prueba ");
+
+  useEffect(() => {
+    db.collection("tortugas")
+      .get()
+      .then((snap) => {
+        setTotalTortugas(snap.size);
+      });
+
+    (async () => {
+      const resultTortugas = [];
+      const nombreCoor = [];
+      const tortugas = db.collection("tortugas").orderBy("fecha", "desc");
+
+      await tortugas.get().then((response) => {
+        response.forEach((doc) => {
+          let coordena = doc.data().localización;
+          let tortuga = doc.data();
+          tortuga.id = doc.id;
+          tortuga.localización.latitude = doc.data().localización.latitude;
+          tortuga.localización.longitude = doc.data().localización.longitude;
+
+          tortugas.localización = doc.localización;
+          nombreCoor.push({ coordena });
+          resultTortugas.push({ tortuga });
+        });
+        setTortugas(resultTortugas);
+        setCoordenas(nombreCoor);
+      });
+    })();
+  }, []);
+
+  coordenas.forEach((element) => console.log("Elemento: " + element.item));
+
+  return (
+    <View style={styles.container}>
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        ref={(map) => (this._map = map)}
+        style={styles.map}
+        initialRegion={initialRegion}
+      >
+        {renderRandomMarkers(10)}
+      </MapView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    width: "100%",
+    height: "100%",
   },
 });
