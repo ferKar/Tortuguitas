@@ -14,6 +14,7 @@ const db = firebase.firestore(firebaseApp);
 
 export default function ScreenNidosAdmin(props) {
   const [totalTortugas, setTotalTortugas] = useState(0);
+  const [totalNidos, setTotalNidos] = useState(0);
 
   const [tortugas, setTortugas] = useState([]);
   const [coordenas, setCoordenas] = useState([]);
@@ -56,7 +57,36 @@ export default function ScreenNidosAdmin(props) {
     })();
   }, []);
 
+  useEffect(() => {
+    db.collection("nidos")
+      .get()
+      .then((snap) => {
+        setTotalNidos(snap.size);
+      });
+
+    (async () => {
+      const resultNidos = [];
+      const nombreCoor = [];
+      const nidos = db.collection("nidos").orderBy("fecha", "desc");
+
+      await nidos.get().then((response) => {
+        response.forEach((doc) => {
+          let coordena = doc.data().localización;
+          let nido = doc.data();
+          resultNidos.push({
+            name: nido.nombre,
+            tamaño: nido.tamaño,
+            latitude: nido.localización.latitude,
+            longitude: nido.localización.longitude,
+          });
+        });
+        setNidos(resultNidos);
+      });
+    })();
+  }, []);
+
   if (coordenas != null) console.log("Coordena", coordenas);
+  if (nidos != null) console.log("Nidos:", nidos);
 
   return (
     <MapView
@@ -82,6 +112,15 @@ export default function ScreenNidosAdmin(props) {
             source={require("../../../assets/torMar.png")}
           />
         </Marker>
+      ))}
+      {nidos.map((marker) => (
+        <Marker
+          key={marker.nombre}
+          coordinate={{
+            latitude: marker.latitude,
+            longitude: marker.longitude,
+          }}
+        ></Marker>
       ))}
     </MapView>
   );
