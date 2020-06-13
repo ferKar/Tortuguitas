@@ -76,6 +76,7 @@ export default function ScreenNidosAdmin(props) {
           resultNidos.push({
             name: nido.nombre,
             tamaño: nido.tamaño,
+            tipo: nido.tipo,
             latitude: nido.localización.latitude,
             longitude: nido.localización.longitude,
           });
@@ -85,16 +86,16 @@ export default function ScreenNidosAdmin(props) {
     })();
   }, []);
 
-  if (coordenas != null) console.log("Coordena", coordenas);
-  if (nidos != null) console.log("Nidos:", nidos);
+  //if (coordenas != null) console.log("Coordena", coordenas);
+  //if (nidos != null) console.log("Nidos:", nidos);
 
   return (
     <MapView
       provider={PROVIDER_GOOGLE}
       style={styles.map}
       region={{
-        latitude: 19.3895472,
-        longitude: -99.095331,
+        latitude: 19.36599103045581,
+        longitude: -98.95577101036906,
         latitudeDelta: 0.09,
         longitudeDelta: 0.035,
       }}
@@ -102,15 +103,23 @@ export default function ScreenNidosAdmin(props) {
       {coordenas.map((marker) => (
         <Marker
           key={marker.name}
+          title={marker.nombre}
+          description={marker.tipo}
           coordinate={{
             latitude: marker.latitude,
             longitude: marker.longitude,
           }}
         >
           <Image
-            style={{ width: 20, height: 20 }}
+            style={{ width: 40, height: 40 }}
             source={require("../../../assets/torMar.png")}
           />
+
+          <MapView.Callout>
+            <Text style={styles.bubbleTitle}>Tipo: {marker.tipo}</Text>
+
+            <Text style={styles.bubbleTitle}>Nombre: {marker.name}</Text>
+          </MapView.Callout>
         </Marker>
       ))}
       {nidos.map((marker) => (
@@ -120,7 +129,21 @@ export default function ScreenNidosAdmin(props) {
             latitude: marker.latitude,
             longitude: marker.longitude,
           }}
-        ></Marker>
+          title={marker.nombre}
+          description={marker.tipo}
+        >
+          <Image
+            style={{ width: 50, height: 50 }}
+            source={require("../../../assets/nido.png")}
+          />
+          <Callout>
+            <View>
+              <Text style={styles.bubbleTitle}>Tipo: {marker.tipo}</Text>
+
+              <Text style={styles.bubbleTitle}>Nombre: {marker.name}</Text>
+            </View>
+          </Callout>
+        </Marker>
       ))}
     </MapView>
   );
