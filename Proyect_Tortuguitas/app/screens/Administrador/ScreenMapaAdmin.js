@@ -17,6 +17,9 @@ export default function ScreenNidosAdmin(props) {
 
   const [tortugas, setTortugas] = useState([]);
   const [coordenas, setCoordenas] = useState([]);
+  const [nidos, setNidos] = useState([]);
+  const [coordenasN, setCoordenasN] = useState([]);
+
   useEffect(() => {
     db.collection("tortugas")
       .get()
