@@ -19,9 +19,7 @@ export default function CambioTamaño(props) {
   const db = firebase.firestore(firebaseApp);
 
 
-  //console.log("Es de update:   "+tamaño);
 
-  console.log("Es de ID:PP   "+props.toastRef);
 
 
    const updateTamaño = () => {

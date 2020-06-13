@@ -10,6 +10,8 @@ import AdminStackNidos from "../AdminNavega/AdminStackNidos";
 import AdminStackMap from "../AdminNavega/AdminStackMapa";
 import AdminStackCuenta from "../AdminNavega/AdminStackCuenta";
 //
+import ScreenBusNidos from "../../screens/Administrador/ScreenBusNidos";
+
 
 
 
@@ -33,7 +35,7 @@ const NavigationStacks = createBottomTabNavigator(
       Busqueda: {
       screen: AdminStackBusqueda,
       navigationOptions: () => ({
-        tabBarLabel: "Busqueda",
+        tabBarLabel: "Busqueda Tortuga",
         tabBarIcon: ({ tintColor }) => (
           <Icon
             type="material-community"
@@ -44,6 +46,8 @@ const NavigationStacks = createBottomTabNavigator(
         )
       })
     },   
+
+
     BuscarMap: {
       screen: AdminStackMap,
       navigationOptions: () => ({
