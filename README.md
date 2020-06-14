@@ -31,7 +31,7 @@ usuarioUbuntu:~/miRuta/.../Tortuguitas/Proyect_Tortuguitas$ yarn dev
 Con las instrucciones anteriores ya estaremos con el proyecto corriendo.
 La terminal deberá verse de la siguiente manera.
 
-![Imagen1. Captura de pantalla](./Captura de pantalla de 2020-06-13 19-56-13.png)
+![Imagen1. Captura de pantalla](https://github.com/ferKar/Tortuguitas/blob/master/Captura%20de%20pantalla%20de%202020-06-13%2019-56-13.png)
 
 Y se abrirá en tu navegador predeterminado una ventana parecida a la siguiente.
 
