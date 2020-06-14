@@ -35,7 +35,7 @@ La terminal deberá verse de la siguiente manera.
 
 Y se abrirá en tu navegador predeterminado una ventana parecida a la siguiente.
 
-![Imagen1. Captura de pantalla](./Captura de pantalla de 2020-06-13 20-03-34.png)
+![Imagen1. Captura de pantalla](https://github.com/ferKar/Tortuguitas/blob/master/Captura%20de%20pantalla%20de%202020-06-13%2020-03-34.png)
 
 
 Ahora solo resta ver la aplicación desde tu celular, para esto previamente debiste descargar la apliación Expo en tu celular, solo escanea el qr que aprece en tu terminal desde tu telefono y listo! :smile:
