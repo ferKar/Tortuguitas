@@ -15,11 +15,33 @@ Para ejecutar satisfactoriamente este programa es necesario lo siguiente:
 4. React Native
   - [Instalación de React Native](https://reactnative.dev/docs/environment-setup)
 5. Expo (tanto en dispositivo movil como en la computadora)
-  - [Instalación de Expo] (https://docs.expo.io/get-started/installation/)
+  - [Instalación de Expo](https://docs.expo.io/get-started/installation/)
 
 ##### Instalación
 
-Clonar este repositorio en tu equipo
+1. Clonar este repositorio en tu equipo
 ```
-git clone [liga]
+git clone https://github.com/ferKar/Tortuguitas.git
 ```
+2. Estando dentro del directorio del repositorio
+```
+usuarioUbuntu:~/miRuta/.../Tortuguitas/Proyect_Tortuguitas$ yarn install
+usuarioUbuntu:~/miRuta/.../Tortuguitas/Proyect_Tortuguitas$ yarn dev
+```
+Con las instrucciones anteriores ya estaremos con el proyecto corriendo.
+La terminal deberá verse de la siguiente manera
+(Imagen1)
+Y se abrirá en tu navegador predeterminado una ventana parecida a la siguiente.
+(Imagen2)
+
+Ahora solo resta ver la aplicación desde tu celular, para esto previamente debiste descargar la apliación Expo en tu celular, solo escanea el qr que aprece en tu terminal desde tu telefono y listo! :smile:
+
+Nota: Asegurate que estes conectado de forma local para esto puedes hacer lo siguiente
+```
+usuarioUbuntu:~/miRuta/.../Tortuguitas/Proyect_Tortuguitas$ expo start --lan
+```
+Nota2: En caso que no reconzca alguna dirección de archvios solo cierra el servidor e inicialo de la siguiente manera:
+```
+usuarioUbuntu:~/miRuta/.../Tortuguitas/Proyect_Tortuguitas$ expo start -r c
+```
+
