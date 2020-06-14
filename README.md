@@ -39,6 +39,10 @@ Y se abrirá en tu navegador predeterminado una ventana parecida a la siguiente.
 
 
 Ahora solo resta ver la aplicación desde tu celular, para esto previamente debiste descargar la apliación Expo en tu celular, solo escanea el qr que aprece en tu terminal desde tu telefono y listo! :smile:
+![Expo](https://github.com/ferKar/Tortuguitas/blob/master/img_readme/expo.jpeg)
+
+Una vez escaneado apracerá el siguiente inicio
+![Incio](https://github.com/ferKar/Tortuguitas/blob/master/img_readme/inicio.jpeg)
 
 Nota: Asegurate que estes conectado de forma local para esto puedes hacer lo siguiente
 ```
